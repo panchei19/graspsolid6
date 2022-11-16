@@ -77,15 +77,26 @@ namespace Full_GRASP_And_SOLID
         }
         public void Cook()
         {
-            this.timerClient = new TimerAdapter(this);
+            if (!Cooked)
+            {
+               this.timerClient = new TimerAdapter(this);
+               this.timer.Register(this.GetCookTime(), this.timerClient); 
+            }
+            
         }
 
-        public class TimerAdapter : TimerClient
+        private class TimerAdapter : TimerClient
         {           
-            public object TimeOutId { get; }
-            public void TimeOut()
+
+            private Recipe recipe;
+
+            public TimerAdapter(Recipe recipe)
             {
-              this.cooked = true;
+                this.recipe = recipe;
+            }
+            public void cookfinish()
+            {
+              ;
             }
         }
     }
