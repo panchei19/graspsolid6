@@ -15,7 +15,7 @@ namespace Full_GRASP_And_SOLID
         private IList<BaseStep> steps = new List<BaseStep>();
         private CountdownTimer timer = new CountdownTimer();
         private TimerAdapter timerClient;
-        public bool Cooked { get;}= false;
+        public bool Cooked { get; private set; } = false;
 
         public Product FinalProduct { get; set; }
 
@@ -77,11 +77,12 @@ namespace Full_GRASP_And_SOLID
         }
         public void Cook()
         {
-            if (!Cooked)
+            if (this.Cooked)
             {
-               this.timerClient = new TimerAdapter(this);
-               this.timer.Register(this.GetCookTime(), this.timerClient); 
+               throw new InvalidOperationException("Ya esta cocido.");
             }
+            this.timerClient = new TimerAdapter(this);
+            this.timer.Register(this.GetCookTime(), this.timerClient); 
             
         }
 
@@ -94,9 +95,9 @@ namespace Full_GRASP_And_SOLID
             {
                 this.recipe = recipe;
             }
-            public void cookfinish()
+            public void TimeOut()
             {
-              ;
+              this.recipe.Cooked= true;
             }
         }
     }
